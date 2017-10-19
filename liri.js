@@ -81,8 +81,10 @@ function fSpotify(track) {
         msg += Array(count).join("*") + "\n";
         songs.forEach(function (song) {
             var x = song.artists[0].name;
+            if (msg.indexOf(x) === -1){
             msg += x + "\n";
             count = x.length > count ? x.length : count;
+            }
         });
         toScreen(msg.trim(), count);
     });
