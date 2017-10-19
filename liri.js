@@ -3,10 +3,18 @@ var Twitter = require('twitter');
 // process parameters
 
 var cliCommand = process.argv[2];
+
+//function to wrap text with "**"
 var toScreen = function(text){
-    var x = Array(text.length + 1).join("*");
-    console.log("\n" + x + "\n" + text + "\n" + x + "\n");
-}
+    var x;
+    if (arguments.length>1){
+        x = Array(arguments[1]).join("*");
+    }else{
+        x = Array(text.length + 1).join("*");
+    }
+    console.log(x + "\n" + text + "\n" + x + "\n");
+};
+
 var cliParameter = function () {
     var values = '';
     for (i = 3; i < process.argv.length; i++) {
@@ -24,7 +32,7 @@ switch (cliCommand) {
         toScreen("You have selected my-tweets");
         fTweet();
         break;
-    case "spotify-this-song":
+    case "spotify":
         toScreen("You have selected to spotify a song");
         fSpotify(cliParameter);
         break;
@@ -39,19 +47,18 @@ function fTweet() {
     var params = {
         screen_name: 'lizstrom'
     };
-    // twitterClient.get('statuses/user_timeline', params, function (error, tweets, response) {
-    //     if (!error) {
-    //         console.log("***Tweets Below***");
-    //         console.log(tweets);
-    //         console.log(response);
-    //     } else {
-    //         console.log(error);
-    //     }
-    // });
-    twitterClient.get('search/tweets', function(error, tweets, response) {
-        if(error) throw error[0].message;
-        console.log(tweets);  // The favorites.
-        console.log(response);  // Raw response object.
+
+    twitterClient.get('search/tweets',{q: 'lizstrom'}, function(error, tweets, response) {
+        if(error) console.log(error);
+        // console.log(tweets);  // The favorites.
+        var statuses = tweets.statuses;
+        var msg = "";
+        for (var i = 0; i < statuses.length; i++){
+            //  (i < statuses.length-1) ? msg += statuses[i].text + "\n" : msg += statuses[i].text;
+            toScreen(statuses[i].text);
+        };
+        // console.log(response);  // Raw response object.
+        // toScreen(msg, 10);
       });
 }
 // spotify-this-song - thiw will show the following:
@@ -67,7 +74,8 @@ function fSpotify(track) {
         limit: 5
     }, function (err, data) {
         if (err) {
-            return console.log('Error occurred: ' + err);
+            //return console.log('Error occurred: ' + err);
+            return err;
         }
 
         console.log(data);
@@ -75,9 +83,6 @@ function fSpotify(track) {
     });
 
 }
-// Artist, the song's name, a preview link of the song, the album that the song is from
-
-
 
 // movie-this
 
