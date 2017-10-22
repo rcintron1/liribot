@@ -27,6 +27,7 @@ var cliParameter = function () {
 }();
 
 // Command line logic
+// do-what-it-says
 switch (cliCommand) {
     case "my-tweets":
         var twitterHandle = cliParameter;
@@ -37,6 +38,12 @@ switch (cliCommand) {
     case "spotify":
         toScreen("You have selected to spotify a song");
         fSpotify(cliParameter);
+        break;
+    case "movie-this":
+        var title = cliParameter;
+        title = title.length > 1?title:'Home+Alone';
+        toScreen("You have selected the movie " + title.replace("+"," "));
+        movieThis(title);
         break;
     default:
         toScreen("Welcome to Liri, the CLI operated intelligence software\n" +
@@ -97,6 +104,36 @@ function fSpotify(track) {
 }
 
 // movie-this
+function movieThis(title){
+    var request = require('request-promise');
+    
+    var options = {
+        uri: 'http://www.omdbapi.com/',
+        qs: {
+            apikey: '40e9cece',
+            t: title
+        },
+        headers: {
+            'User-Agent': 'Request-Promise'
+        },
+        json: true // Automatically parses the JSON string in the response
+    };
+    
+    request(options)
+        .then(function(data){
+            console.log(data);
+            var op = ""; //output of data 
+            op += "Title of movie -> " + data.Title + "\n";
+            op += "Year movie came out -> " + data.Year + "\n";
+            op += "IMDB rating is -> " + data.imdbRating + "\n";
+            op += "Country movie was produced -> " + data.Country + "\n";
+            op += "Language -> " + data.Language + "\n";
+            op += "Plot -> " + data.Plot + "\n";
+            op += "Actors -> " + data.Actors;
+            toScreen(op)
 
-
-// do-what-it-says
+        })
+        .catch(function (err){
+            console.log(err);
+        });
+}
