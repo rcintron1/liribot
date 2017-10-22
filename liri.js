@@ -121,7 +121,6 @@ function movieThis(title){
     
     request(options)
         .then(function(data){
-            console.log(data);
             var op = ""; //output of data 
             op += "Title of movie -> " + data.Title + "\n";
             op += "Year movie came out -> " + data.Year + "\n";
