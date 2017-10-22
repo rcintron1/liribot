@@ -32,7 +32,7 @@ switch (cliCommand) {
     case "my-tweets":
         var twitterHandle = cliParameter;
         twitterHandle = twitterHandle.length > 1?twitterHandle:'lizstrom';
-        toScreen("You have selected " + cliParameter + " tweets");
+        toScreen("You have selected " + twitterHandle + " tweets");
         fTweet(twitterHandle);
         break;
     case "spotify":
