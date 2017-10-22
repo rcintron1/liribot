@@ -29,24 +29,30 @@ var cliParameter = function () {
 // Command line logic
 switch (cliCommand) {
     case "my-tweets":
-        toScreen("You have selected my-tweets");
-        fTweet();
+        var twitterHandle = cliParameter;
+        twitterHandle = twitterHandle.length > 1?twitterHandle:'lizstrom';
+        toScreen("You have selected " + cliParameter + " tweets");
+        fTweet(twitterHandle);
         break;
     case "spotify":
         toScreen("You have selected to spotify a song");
         fSpotify(cliParameter);
         break;
+    default:
+        toScreen("Welcome to Liri, the CLI operated intelligence software\n" +
+        "type my-tweets and a twitter handle\n"+
+        "type spotify and a song name");
 }
 
 // my-tweets - sow last 20 tweets and when they were created
-function fTweet() {
+function fTweet(twitterHandle) {
     var twitterClient = new Twitter(keys.twitter);
     var params = {
-        screen_name: 'lizstrom'
+        screen_name: twitterHandle
     };
 
     twitterClient.get('search/tweets', {
-        q: 'lizstrom'
+        q: twitterHandle
     }, function (error, tweets, response) {
         if (error) console.log(error);
         // console.log(tweets);  // The favorites.
