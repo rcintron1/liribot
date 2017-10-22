@@ -36,7 +36,7 @@ switch (cliCommand) {
         fTweet(twitterHandle);
         break;
     case "spotify":
-        toScreen("You have selected to spotify a song");
+        toScreen("You have selected to spotify " + cliParameter.replace("+"," "));
         fSpotify(cliParameter);
         break;
     case "movie-this":
@@ -48,7 +48,8 @@ switch (cliCommand) {
     default:
         toScreen("Welcome to Liri, the CLI operated intelligence software\n" +
         "type my-tweets and a twitter handle\n"+
-        "type spotify and a song name");
+        "type spotify and a song name\n"+
+        "type movie-this and add a movie (default is Home-Alone)");
 }
 
 // my-tweets - sow last 20 tweets and when they were created
